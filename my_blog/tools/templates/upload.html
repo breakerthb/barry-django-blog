@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load custom_markdown %}
+
+{% block content %}
+<div>
+    <section>
+        <header class="post-header">
+            <h2 class="post-title">图片上传</h2>
+            <style>
+            .img {
+                width: 300px;
+                height: 300px;
+            }
+            </style>
+        </header>
+
+             
+    <form method="POST" action="/upload/" enctype="multipart/form-data">
+         {% csrf_token %}
+        <!--
+        <input type="text" name="byd" id="byd" placeholder="请输入字符串">
+        -->
+        
+        <input type="file" name="file" value="手动点击上传图片"><br/>
+        <input type="submit" name="提交">
+        
+        
+    </form>
+
+    </section>
+
+</div><!-- /.blog-post -->
+{% endblock %}

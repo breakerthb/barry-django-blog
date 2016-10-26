@@ -18,6 +18,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from article import views as article_views
+from tools import views as tools_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,9 +27,13 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/$', article_views.detail, name='detail'),
     
     url(r'^archives', article_views.archives, name = 'archives'),
+  
     url(r'^aboutme', article_views.about_me, name = 'about_me'),
     url(r'^tag(?P<tag>\w+)/$', article_views.search_tag, name = 'search_tag'),
     url(r'^search/$','article.views.blog_search', name = 'search'),
      
     url(r'^test/$', article_views.test),
+    
+    url(r'^upload', tools_views.upload_file, name = 'upload'),
+
 ]

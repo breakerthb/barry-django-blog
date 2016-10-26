@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="http://labfile.oss.aliyuncs.com/courses/487/grids-responsive-min.css">
     <link rel="stylesheet" href="http://labfile.oss.aliyuncs.com/courses/487/blog.css">
     -->
-  </head>
+</head>
 <body>
 <div id="layout" class="pure-g">
     <div class="sidebar pure-u-1 pure-u-md-1-4">
@@ -35,7 +35,7 @@
                         <a class="button-success pure-button" href="/archives">Archive</a>
                     </li>
                     <li class="nav-item">
-                        <a class="pure-button" href="https://github.com/Andrew-liu/my_blog_tutorial">Github</a>
+                        <a class="pure-button" href="/upload">PicBed</a>
                     </li>
                     <li class="nav-item">
                         <a class="button-error pure-button" href="http://weibo.com/dinosaurliu">Weibo</a>
@@ -60,9 +60,14 @@
             <nav>
                 <ul class="nav-list">
                     Tags：
-                {% block tag %}
-                需要tag内容
-                {% endblock %}
+                   {% for tag in tag_list %}
+                        <li class="nav-item">
+                            <a class="button-success pure-button"  href="{% url "search_tag" tag %}">{{ tag }}</a> {{ data }}
+                        </li>
+                   {% endfor %}
+           
+              
+           
                 </ul>
             </nav>
         </div>

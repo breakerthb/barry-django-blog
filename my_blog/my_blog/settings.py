@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for my_blog project.
 
@@ -25,6 +26,57 @@ SECRET_KEY = 'yu9900qq(f0g7l9v5132l$0$*7-a%s_dj*a$q=#d(ggll-p(p='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }, # 针对 DEBUG = True 的情况
+    },
+    'formatters': {
+        'standard': {
+            'format': '%(levelname)s %(asctime)s %(pathname)s %(filename)s %(module)s %(funcName)s %(lineno)d: %(message)s'
+        }, # 对日志信息进行格式化，每个字段对应了日志格式中的一个字段，更多字段参考官网文档，我认为这些字段比较合适，输出类似于下面的内容
+        # INFO 2016-09-03 16:25:20,067 /home/ubuntu/mysite/views.py views.py views get 29: some info...
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+             'formatter':'standard'
+        },
+        'file_handler': {
+             'level': 'DEBUG',
+             'class': 'logging.handlers.TimedRotatingFileHandler',
+             'filename': 'log/abc.log',
+             'formatter':'standard'
+        }, # 用于文件输出
+        'console':{
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers' :['file_handler', 'console'],
+            'level':'DEBUG',
+            'propagate': True # 是否继承父类的log信息
+        }, # handlers 来自于上面的 handlers 定义的内容
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    }
+}
+
+# Personal Information
+SITE_NAME = "Barry's Blog"
+SITE_DESC = 'Personal Blog'
+
 ALLOWED_HOSTS = []
 
 
@@ -42,6 +94,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'article',
+    'tools',
 ]
 
 from django.conf import global_settings
@@ -63,7 +116,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request'
+                'django.template.context_processors.request',
             ]
         },
     },
@@ -95,6 +148,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                
+                'article.views.global_setting'
             ],
         },
     },
@@ -154,3 +210,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
      os.path.join(os.path.dirname(__file__), '../static/').replace('\\','/'),
 )
+
+#配置文件的上传路径
+MEDIA_URL = 'uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
